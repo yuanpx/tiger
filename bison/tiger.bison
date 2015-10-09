@@ -51,5 +51,61 @@ lvalue:
     | lvalue L_BRACE exp R_BRACE
     ;
 
+exp:
+    | lvalue
+    | NIL
+    | L_BRACKET exp SEMICOLON exp R_BRACKET
+    | INT
+    | STR
+    | MINUS exp
+    | ID L_BRACKET after_func_call
+    | exp PLUS exp
+    | exp MINUS exp
+    | exp MUL exp
+    | exp DIV exp
+    | exp EQU exp
+    | exp LESS exp
+    | exp MORE exp
+    | exp NOT_EQU exp
+    | exp LESS_EQU exp
+    | exp MORE_EQU exp
+    | exp ADD exp
+    | exp OR exp
+    | ID L_BIG_BRACE after_recoord 
+    | lvalue ASSIGN exp
+    | IF exp THEN exp after_if
+    | WHILE exp do exp
+    | FOR ID ASSIGN exp TO exp DO exp
+    | break
+    | LET decs IN  expseq END
+    | L_BIG_BRACE expseq R_BIG_BRACE
+    ;
+
+after_if:
+    | 
+    | ELSE exp
+    ;
+
+after_record:
+    | exp_assign_list R_BIG_BRACE
+    | R_BIG_BRACE
+    ;
+
+exp_assign_list:
+    | ID EQU exp
+    | exp_assign_list , ID EQU exp
+    ;
+
+
+after_func_call:
+    | R_BRACKET
+    | func_param R_BRACKET
+    ;
+func_param:
+    | exp
+    | func_param , exp
+    ;
+
+
 
 %%
